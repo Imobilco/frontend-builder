@@ -1,0 +1,16 @@
+<catalog>
+<file src="/Users/sergey/Projects/frontend-builder/test/sample.js">
+	<file src="/Users/sergey/Projects/frontend-builder/test/file1.js" md5="d027d31d9d5b06b782fedf5ba44a44ad" />
+	<file src="/Users/sergey/Projects/frontend-builder/test/file2.js" md5="6a572d019ba97b2d5df41793eefe8f24" />
+</file>
+<file src="/Users/sergey/Projects/frontend-builder/test/c/file1.js">
+	<file src="/Users/sergey/Projects/frontend-builder/test/file1.js" md5="d027d31d9d5b06b782fedf5ba44a44ad" />
+</file>
+<file src="/Users/sergey/Projects/frontend-builder/test/c/file2.js">
+	<file src="/Users/sergey/Projects/frontend-builder/test/file2.js" md5="6a572d019ba97b2d5df41793eefe8f24" />
+</file>
+<file src="/Users/sergey/Projects/frontend-builder/test/c/sample.js">
+	<file src="/Users/sergey/Projects/frontend-builder/test/file1.js" md5="d027d31d9d5b06b782fedf5ba44a44ad" />
+	<file src="/Users/sergey/Projects/frontend-builder/test/file2.js" md5="6a572d019ba97b2d5df41793eefe8f24" />
+</file>
+</catalog>

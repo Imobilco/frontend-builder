@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="/Users/sergey/lib/apache-ant-1.8.2/lib/ant.jar" sourcepath="/Users/sergey/lib/apache-ant-1.8.2/src/apache-ant-1.8.2/src/main"/>
+	<classpathentry kind="lib" path="compiler.jar" sourcepath="/Users/sergey/lib/closure-compiler/src"/>
+	<classpathentry kind="lib" path="yuicompressor-2.4.7pre.jar" sourcepath="/Users/sergey/lib/yuicompressor/src"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

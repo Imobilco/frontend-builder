@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Compiler test" default="default" basedir=".">
+	<taskdef resource="org/apache/tools/ant/taskdefs/default.properties">
+		<classpath>
+			<pathelement location="../bin" />
+			<pathelement location="../compiler.jar"/>
+			<pathelement location="../yuicompressor-2.4.7pre.jar"/>
+		</classpath>
+	</taskdef>
+    <target name="default">
+        <compile-js destfile="${basedir}/c/sample.js" useclosure="false">
+        	<filelist dir="${basedir}">
+        		<file name="file1.js"/>
+        		<file name="file2.js"/>
+        	</filelist>
+        </compile-js>
+    	
+        <compile-js destdir="./c">
+        	<fileset dir="${basedir}">
+        		<include name="*.js"/>
+        	</fileset>
+        </compile-js>
+    	
+    	<save-catalog absolute="true" destfile="${basedir}/c/js-libs.xml" webroot="${basedir}"/>
+    </target>
+</project>
