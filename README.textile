@@ -1,10 +1,4 @@
-Ant-cборщик JS и CSS файлов через Google Closure Compiler/YUICompressor, 
-оптимизированный специально для систем версионного контроля. Во время сборки
-создаётся специальный файл @.build_catalog@, в котором хранится описание всех
-собранных файлов. В момент следующей сборки происходит сравнение структур 
-текущего (собираемого) файла и его описанием в каталоге: если они различаются —
-файл собирается заново, если нет — ничего не происходит. Таким образом, 
-экономится процессорное время и не сбрасывается кэш с собранных файлов.
+Ant-cборщик JS и CSS файлов через Google Closure Compiler/YUICompressor, оптимизированный специально для систем версионного контроля. Во время сборки создаётся специальный файл @.build_catalog@, в котором хранится описание всех собранных файлов. В момент следующей сборки происходит сравнение структур текущего (собираемого) файла и его описанием в каталоге: если они различаются — файл собирается заново, если нет — ничего не происходит. Таким образом, экономится процессорное время и не сбрасывается кэш с собранных файлов.
 
 h2. Подключение
 
@@ -13,8 +7,7 @@ h2. Подключение
 * Скачать "последнюю сборку":https://github.com/Imobilco/frontend-builder/downloads 
 * Подключить новые задачи в Ant-file:
 
-<pre><code>
-<?xml version="1.0" encoding="UTF-8"?>
+<pre><code><?xml version="1.0" encoding="UTF-8"?>
 <project name="Compiler test">
 	<taskdef resource="org/apache/tools/ant/taskdefs/default.properties">
 		<classpath>
@@ -73,8 +66,7 @@ h2. Примеры вызовов
 
 * Собрать @file1.js@ и @file2.js@ в @file1.js@:
 
-<pre><code>
-<compile-js destfile="${basedir}/file.js">
+<pre><code><compile-js destfile="${basedir}/file.js">
 	<filelist dir="${basedir}">
 		<file name="file1.js"/>
 		<file name="file2.js"/>
@@ -84,13 +76,10 @@ h2. Примеры вызовов
 
 * Сделать минифицированную копию всех JS-файлов в папке @src@ и сохранить их в @compiled@:
 
-<pre><code>
-<compile-js destdir="./compiled">
+<pre><code><compile-js destdir="./compiled">
 	<fileset dir="./src" includes="*.js" />
 </compile-js>
 </code></pre>
 
 * Собрать все CSS-файлы внутри папки @css@ и сохранить результат в папку @c@:
-<pre><code>
-<compile-css dir="./css" todir="./c"/>
-</code></pre>
+<pre><code><compile-css dir="./css" todir="./c"/></code></pre>
