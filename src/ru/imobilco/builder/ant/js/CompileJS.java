@@ -1,4 +1,4 @@
-package ru.imobilco.builder.ant;
+package ru.imobilco.builder.ant.js;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

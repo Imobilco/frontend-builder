@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.imobilco.builder.ant.FileEntity;
+import ru.imobilco.builder.ant.js.FileEntity;
 
 /**
  * A bundle logger record that contains list of files that where compiled into
