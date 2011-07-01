@@ -47,7 +47,21 @@ public class CompileCSS extends FileListTask {
 	}
 	
 	private void validate() {
+		if (toDir == null) {
+			throw new BuildException("Output directory ('todir' attribute) is not specified");
+		}
 		
+		if (webRoot == null) {
+			webRoot = getProject().getBaseDir();
+		}
+		
+		if (!webRoot.exists()) {
+			throw new BuildException("Web boor directory doen't exists: " + webRoot);
+		}
+		
+		if (getFileList().size() == 0) {
+			throw new BuildException("No input CSS files specified");
+		}
 	}
 	
 	public void execute() throws BuildException {
