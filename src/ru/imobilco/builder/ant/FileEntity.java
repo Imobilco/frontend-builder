@@ -1,4 +1,4 @@
-package ru.imobilco.builder.ant.js;
+package ru.imobilco.builder.ant;
 
 import java.io.File;
 import java.io.FileInputStream;

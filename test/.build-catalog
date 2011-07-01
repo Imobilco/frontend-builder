@@ -1,4 +1,4 @@
-<catalog>
+<files>
 <file src="/Users/sergey/Projects/frontend-builder/test/sample.js">
 	<file src="/Users/sergey/Projects/frontend-builder/test/file1.js" md5="d027d31d9d5b06b782fedf5ba44a44ad" />
 	<file src="/Users/sergey/Projects/frontend-builder/test/file2.js" md5="6a572d019ba97b2d5df41793eefe8f24" />
@@ -13,4 +13,10 @@
 	<file src="/Users/sergey/Projects/frontend-builder/test/file1.js" md5="d027d31d9d5b06b782fedf5ba44a44ad" />
 	<file src="/Users/sergey/Projects/frontend-builder/test/file2.js" md5="6a572d019ba97b2d5df41793eefe8f24" />
 </file>
-</catalog>
+<file src="/Users/sergey/Projects/frontend-builder/test/cc/test.css">
+	<file src="/Users/sergey/Projects/frontend-builder/test/css/assets/_about.css" md5="9cd7d2d35e9233379d0329133f230636" />
+	<file src="/Users/sergey/Projects/frontend-builder/test/css/assets/_btn.css" md5="b92bd0bf875305ae4b20ec535ce0fa4a" />
+	<file src="/Users/sergey/Projects/frontend-builder/test/css/assets/_city_chooser.css" md5="99a8c35fc734318a10a232fba67b55a7" />
+	<file src="/Users/sergey/Projects/frontend-builder/test/css/webroot/_btn.css" md5="b92bd0bf875305ae4b20ec535ce0fa4a" />
+</file>
+</files>

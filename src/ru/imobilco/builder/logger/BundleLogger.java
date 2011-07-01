@@ -15,7 +15,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import ru.imobilco.builder.ant.js.FileEntity;
+import ru.imobilco.builder.ant.FileEntity;
 
 public class BundleLogger {
 	public static String CATALOG_FILE = ".build-catalog";

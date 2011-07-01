@@ -1,0 +1,24 @@
+@import url(assets/_about.css);
+@import url(assets/_btn.css);
+@import url(assets/_city_chooser.css);
+@import url(/_btn.css);
+
+.main-content {
+	position: relative;
+	line-height: 1.4;
+	padding: 1.5em 2em 10em 2em;
+	overflow: hidden;
+	text-shadow: 0 0 4px #2a144f;
+	-moz-box-shadow: 0 0 1px #c95757;
+	-webkit-box-shadow: 0 0 1px #c95757;
+	box-shadow: 0 0 1px #c95757;
+}
+
+.about-content .sub-navigation {
+	text-align: center;
+	line-height: 0;
+}
+
+.about-content .sub-navigation ul {
+	display: inline-block;
+}

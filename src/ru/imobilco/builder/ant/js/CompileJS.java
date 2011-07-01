@@ -24,6 +24,7 @@ import org.apache.tools.ant.types.FileSet;
 import org.mozilla.javascript.ErrorReporter;
 import org.mozilla.javascript.EvaluatorException;
 
+import ru.imobilco.builder.ant.FileEntity;
 import ru.imobilco.builder.logger.BundleLogger;
 
 import com.google.common.collect.Lists;

@@ -21,6 +21,12 @@
         	</fileset>
         </compile-js>
     	
+    	<compile-css todir="${basedir}/cc" webroot="${basedir}/css/webroot">
+    		<filelist dir="${basedir}/css">
+    			<file name="test.css"/>
+    		</filelist>
+    	</compile-css>
+    	
     	<save-catalog absolute="true" destfile="${basedir}/c/js-libs.xml" webroot="${basedir}"/>
     </target>
 </project>
