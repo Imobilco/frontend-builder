@@ -23,6 +23,7 @@ import ru.imobilco.builder.logger.BundleLogger;
  */
 public abstract class FileListTask extends Task {
 	private ArrayList<FileEntity> fileList;
+	private String encoding = "UTF-8";
 	private String outputEncoding = "UTF-8";
 	
 	/**
@@ -69,7 +70,7 @@ public abstract class FileListTask extends Task {
 			log("Created missing parent directory " + file.getParentFile(), Project.MSG_DEBUG);
 		}
 		
-		OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(file), outputEncoding);
+		OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(file), getOutputEncoding());
 		out.append(data);
 		out.flush();
 		out.close();
@@ -78,5 +79,21 @@ public abstract class FileListTask extends Task {
 		BundleLogger logger = BundleLogger.getSingleton(getProject());
 		logger.addToCatalog(file, fileList);
 		logger.saveCatalog();
+	}
+
+	public String getOutputEncoding() {
+		return outputEncoding;
+	}
+
+	public void setOutputEncoding(String outputEncoding) {
+		this.outputEncoding = outputEncoding;
+	}
+
+	public String getEncoding() {
+		return encoding;
+	}
+
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
 	}
 }

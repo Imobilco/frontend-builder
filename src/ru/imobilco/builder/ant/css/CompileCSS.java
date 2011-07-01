@@ -19,7 +19,6 @@ public class CompileCSS extends FileListTask {
 	private File toDir;
 	private File webRoot;
 	private boolean force = false;
-	private String encoding = "UTF-8";
 	
 	public CompileCSS() {
 		
@@ -45,10 +44,6 @@ public class CompileCSS extends FileListTask {
 	
 	public void setForce(boolean force) {
 		this.force = force;
-	}
-	
-	public void setEncoding(String encoding) {
-		this.encoding = encoding;
 	}
 	
 	private void validate() {
@@ -82,10 +77,10 @@ public class CompileCSS extends FileListTask {
 		StringReader reader = new StringReader(catalog.getCombinedCSS());
 		CssCompressor compressor = new CssCompressor(reader);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		OutputStreamWriter out = new OutputStreamWriter(baos, encoding);
+		OutputStreamWriter out = new OutputStreamWriter(baos, getEncoding());
 		compressor.compress(out, -1);
 		out.close();
 		
-		return baos.toString(encoding);
+		return baos.toString(getEncoding());
 	}
 }

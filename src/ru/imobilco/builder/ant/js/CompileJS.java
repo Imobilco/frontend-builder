@@ -2,7 +2,6 @@ package ru.imobilco.builder.ant.js;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -16,15 +15,12 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.types.FileList;
-import org.apache.tools.ant.types.FileSet;
 import org.mozilla.javascript.ErrorReporter;
 import org.mozilla.javascript.EvaluatorException;
 
 import ru.imobilco.builder.ant.FileEntity;
+import ru.imobilco.builder.ant.FileListTask;
 import ru.imobilco.builder.logger.BundleLogger;
 
 import com.google.common.collect.Lists;
@@ -38,49 +34,16 @@ import com.google.javascript.jscomp.WarningLevel;
 import com.google.javascript.jscomp.ant.AntErrorManager;
 import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
 
-public class CompileJS extends Task {
-	private String encoding = "UTF-8"; 
-	private String outputEncoding = "UTF-8";
+public class CompileJS extends FileListTask {
 	private File destFile;
 	private File destDir;
 	private boolean useClosure = true;
 	private boolean force = false;
 	
-	private ArrayList<FileEntity> fileList;
-	
 	public CompileJS() {
-		fileList = new ArrayList<FileEntity>();
+		
 	}
 	
-	/**
-     * Add a set of files to compile.
-     * @param set a set of files to compile.
-     */
-    public void addConfiguredFileset(FileSet set) {
-    	String baseDir = set.getDir(getProject()).getAbsolutePath();
-    	DirectoryScanner scanner = set.getDirectoryScanner(getProject());
-    	
-    	String[] fileNames = scanner.getIncludedFiles();
-    	for (int i = 0; i < fileNames.length; i++) {
-			fileList.add(new FileEntity(baseDir, fileNames[i]));
-		}
-    }
-    
-    /**
-     * List of files to compile.
-     * @param list the list of files
-     */
-    public void addConfiguredFilelist(FileList list) {
-    	File baseDir = list.getDir(getProject());
-    	String[] fileNames = list.getFiles(getProject());
-    	
-    	String baseDirPath = baseDir.getAbsolutePath();
-    	
-    	for (int i = 0; i < fileNames.length; i++) {
-			fileList.add(new FileEntity(baseDirPath, fileNames[i]));
-		}
-    }
-    
     public void setUseClosure(boolean flag) {
     	useClosure = flag;
     }
@@ -101,10 +64,6 @@ public class CompileJS extends Task {
 		destDir = path;
 	}
 	
-	public void setEncoding(String enc) {
-		encoding = enc;
-	}
-	
 	public void setForce(boolean force) {
 		this.force = force;
 	}
@@ -115,7 +74,7 @@ public class CompileJS extends Task {
 		}
 		
 		// check file existence
-		for (FileEntity f : fileList) {
+		for (FileEntity f : getFileList()) {
 			if (!f.getFile().exists()) {
 				throw new BuildException("File " + f.getAbsolutePath() + " doesn't exists");	
 			}
@@ -124,6 +83,8 @@ public class CompileJS extends Task {
 	
 	public void execute() throws BuildException {
 		validate();
+		
+		ArrayList<FileEntity> fileList = getFileList();
 		
 		if (destFile != null) {
 			// concat all files into a single one
@@ -163,26 +124,12 @@ public class CompileJS extends Task {
 		
 		if (result != null) {
 			try {
-				writeFile(result, output);
-				logger.addToCatalog(output, files);
-				logger.saveCatalog();
+				writeFile(result, output, files);
 				log("Compilation done");
 			} catch (IOException e) {
 				throw new BuildException("Cannot write result into "  + output + ": " + e.getMessage());
 			}
 		}
-	}
-	
-	private void writeFile(String data, File file) throws IOException {
-		if (file.getParentFile().mkdirs()) {
-			log("Created missing parent directory " + file.getParentFile(), Project.MSG_DEBUG);
-		}
-		
-		OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(
-				file), outputEncoding);
-		out.append(data);
-		out.flush();
-		out.close();
 	}
 	
 	/**
@@ -201,7 +148,7 @@ public class CompileJS extends Task {
 	    List<JSSourceFile> sources = Lists.newLinkedList();
 	    
 	    for (FileEntity f : files) {
-	    	sources.add(JSSourceFile.fromFile(f.getFile(), Charset.forName(encoding)));
+	    	sources.add(JSSourceFile.fromFile(f.getFile(), Charset.forName(getEncoding())));
 		}
 	    
 	    Result result = compiler.compile(externs, sources, options);
@@ -220,7 +167,7 @@ public class CompileJS extends Task {
 		}
 		
 		Enumeration<InputStream> streamsEnum = Collections.enumeration(streams);
-		InputStreamReader reader = new InputStreamReader(new SequenceInputStream(streamsEnum), encoding);
+		InputStreamReader reader = new InputStreamReader(new SequenceInputStream(streamsEnum), getEncoding());
 		
 		JavaScriptCompressor compressor = new JavaScriptCompressor(reader, new ErrorReporter() {
 			
@@ -260,12 +207,12 @@ public class CompileJS extends Task {
 		int linebreakpos = -1;
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		OutputStreamWriter out = new OutputStreamWriter(baos, encoding);
+		OutputStreamWriter out = new OutputStreamWriter(baos, getEncoding());
 		
 		compressor.compress(out, linebreakpos, munge, verbose, preserveAllSemiColons, disableOptimizations);
 		out.close();
 		
-		return baos.toString(encoding);
+		return baos.toString(getEncoding());
 	}
 	
 	private CompilerOptions createClosureCompilerOptions() {
