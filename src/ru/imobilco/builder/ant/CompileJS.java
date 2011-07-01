@@ -43,6 +43,7 @@ public class CompileJS extends Task {
 	private File destFile;
 	private File destDir;
 	private boolean useClosure = true;
+	private boolean force = false;
 	
 	private ArrayList<FileEntity> fileList;
 	
@@ -103,6 +104,10 @@ public class CompileJS extends Task {
 		encoding = enc;
 	}
 	
+	public void setForce(boolean force) {
+		this.force = force;
+	}
+	
 	private void validate() {
 		if (destDir == null && destFile == null) {
 			throw new BuildException("Either 'destdir' or 'destfile' attribute should be defined");
@@ -139,7 +144,7 @@ public class CompileJS extends Task {
 		log("Compiling " + files.size() + " file(s) as " + output);
 		
 		BundleLogger logger = BundleLogger.getSingleton(getProject());
-		if (!logger.isModified(output, files)) {
+		if (!force && !logger.isModified(output, files)) {
 			log("Nothing to do");
 			return;
 		}
