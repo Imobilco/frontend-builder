@@ -16,8 +16,13 @@ import ru.imobilco.builder.logger.BundleLogger;
 import com.yahoo.platform.yui.compressor.CssCompressor;
 
 public class CompileCSS extends FileListTask {
+	private File dir;
 	private File toDir;
 	private File webRoot;
+	
+	private String includes;
+	private String excludes;
+	
 	private boolean force = false;
 	
 	public CompileCSS() {
@@ -25,13 +30,7 @@ public class CompileCSS extends FileListTask {
 	}
 	
 	public void setDir(File dir) {
-		FileSet fSet = new FileSet();
-		fSet.setProject(getProject());
-		fSet.setDir(dir);
-		fSet.setIncludes("**/*.css");
-		fSet.setExcludes("**/_*.css");
-		
-		addConfiguredFileset(fSet);
+		this.dir = dir;
 	}
 	
 	public void setToDir(File dir) {
@@ -46,6 +45,35 @@ public class CompileCSS extends FileListTask {
 		this.force = force;
 	}
 	
+	public void setIncludes(String includes) {
+		this.includes = includes;
+	}
+	
+	public void setExcludes(String excludes) {
+		this.excludes = excludes;
+	}
+	
+	private void configureInput() {
+		if (dir != null) {
+			FileSet fSet = new FileSet();
+			fSet.setProject(getProject());
+			fSet.setDir(dir);
+			
+			String _includes = "**/*.css";
+			if (includes != null)
+				_includes += "," + includes;
+			
+			String _excludes = "**/_*.css";
+			if (excludes != null)
+				_excludes += "," + excludes;
+			
+			fSet.setIncludes(_includes);
+			fSet.setExcludes(_excludes);
+			
+			addConfiguredFileset(fSet);
+		}
+	}
+	
 	private void validate() {
 		if (toDir == null) {
 			throw new BuildException("Output directory ('todir' attribute) is not specified");
@@ -58,6 +86,8 @@ public class CompileCSS extends FileListTask {
 		if (!webRoot.exists()) {
 			throw new BuildException("Web boor directory doen't exists: " + webRoot);
 		}
+		
+		configureInput();
 		
 		if (getFileList().size() == 0) {
 			throw new BuildException("No input CSS files specified");
