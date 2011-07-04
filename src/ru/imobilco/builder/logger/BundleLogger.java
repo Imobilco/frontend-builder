@@ -148,6 +148,7 @@ public class BundleLogger {
 	public void saveCatalog(IPathProcessor pathProcessor, File outputFile) {
 		OutputStreamWriter out;
 		try {
+			outputFile.mkdirs();
 			outputFile.createNewFile();
 			out = new OutputStreamWriter(new FileOutputStream(outputFile), "UTF-8");
 			
