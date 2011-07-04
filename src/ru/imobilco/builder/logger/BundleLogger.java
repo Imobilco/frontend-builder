@@ -24,11 +24,18 @@ public class BundleLogger {
     private static Project project;
     private List<BundleItem> catalog;
     private List<String> updatedFiles;
+    private File baseDir;
 
     private BundleLogger(Project project) {
         BundleLogger.project = project;
+        baseDir = project.getBaseDir();
         updatedFiles = new ArrayList<String>();
         loadCatalog();
+    }
+    
+    private String getFilePath(Node node) {
+    	File _f = new File(baseDir, getAttributeValue(node, "src"));
+    	return _f.getAbsolutePath();
     }
 
     private void loadCatalog() {
@@ -42,7 +49,7 @@ public class BundleLogger {
                 doc.getDocumentElement().normalize();
 
                 catalog = new ArrayList<BundleItem>();
-
+                
                 NodeList child = doc.getDocumentElement().getChildNodes();
                 for (int i = 0; i < child.getLength(); i++) {
                     Node n = child.item(i);
@@ -52,11 +59,10 @@ public class BundleLogger {
 
                         NodeList fileNodes = parentFile.getElementsByTagName("file");
                         for (int j = 0; j < fileNodes.getLength(); j++) {
-//							childFiles.add(getAttributeValue(fileNodes.item(j), "src"));
-                            childFiles.add(new ModuleFile(getAttributeValue(fileNodes.item(j), "src"), getAttributeValue(fileNodes.item(j), "md5")));
+                            childFiles.add(new ModuleFile(getFilePath(fileNodes.item(j)), getAttributeValue(fileNodes.item(j), "md5")));
                         }
 
-                        catalog.add(new BundleItem(getAttributeValue(n, "src"), childFiles));
+                        catalog.add(new BundleItem(getFilePath(n), childFiles));
                     }
                 }
             } catch (Exception e) {
@@ -139,7 +145,7 @@ public class BundleLogger {
     }
 
     public void saveCatalog(File outputFile) {
-        saveCatalog(new DefaultPathProcessor(), outputFile);
+        saveCatalog(new DefaultPathProcessor(baseDir), outputFile);
     }
 
     public void saveCatalog(IPathProcessor pathProcessor) {
@@ -181,4 +187,8 @@ public class BundleLogger {
     public List<String> getUpdatedFiles() {
         return updatedFiles;
     }
+    
+    public File getBaseDir() {
+		return baseDir;
+	}
 }
