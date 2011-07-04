@@ -104,8 +104,11 @@ public class CSSCatalog {
 	public void setParentFile(File parentFile) {
 		this.parentFile = parentFile;
 		catalogFiles = new ArrayList<FileEntity>();
+		
 		combinedCSS = "";
 		try {
+			// add parent file to catalog, staring at web root
+			catalogFiles.add(new FileEntity(parentFile.getParent(), parentFile.getName()));
 			combinedCSS = createCatalog(parentFile);
 		} catch (Exception e) {}
 	}
