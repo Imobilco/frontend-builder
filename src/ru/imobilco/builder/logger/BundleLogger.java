@@ -23,9 +23,11 @@ public class BundleLogger {
 	private volatile static BundleLogger singleton;
 	private static Project project;
 	private List<BundleItem> catalog;
+	private List<String> updatedFiles;
 	
 	private BundleLogger(Project project) {
 		BundleLogger.project = project;
+		updatedFiles = new ArrayList<String>();
 		loadCatalog();
 	}
 	
@@ -127,6 +129,8 @@ public class BundleLogger {
 		} else {
 			catalog.add(new BundleItem(fileName, childFiles));
 		}
+		
+		updatedFiles.add(fileName);
 	}
 	
 	public void saveCatalog() {
@@ -167,5 +171,9 @@ public class BundleLogger {
 		}
 		sb.append("</files>\n");
 		return sb.toString();
+	}
+	
+	public List<String> getUpdatedFiles() {
+		return updatedFiles;
 	}
 }

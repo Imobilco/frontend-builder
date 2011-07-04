@@ -28,5 +28,7 @@
     	</compile-css>
     	
     	<save-catalog absolute="true" destfile="${basedir}/c/js-libs.xml" webroot="${basedir}"/>
+    	
+    	<zip-updated destfile="${basedir}/updated.zip" basedir="${basedir}"/>
     </target>
 </project>
