@@ -2,8 +2,9 @@ package ru.imobilco.builder.ant.css;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -16,6 +17,7 @@ public class CSSCatalog {
 	private File webRoot;
 	private String combinedCSS;
 	private List<FileEntity> catalogFiles;
+	private String encoding = "UTF-8";
 	
 	private static final Pattern reImport = Pattern.compile("@import\\s+(?:url\\(\\s*)?[\"']?([\\w\\\\\\/\\-\\:\\.]*?_[\\w\\.\\-]+\\.css)[\"']?\\)?\\s*\\;?");
 	
@@ -86,7 +88,9 @@ public class CSSCatalog {
 	}
 	
 	private String readFile(File file) throws IOException {
-		BufferedReader reader = new BufferedReader(new FileReader(file));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), getEncoding()));
+//		BufferedReader reader = new BufferedReader(new FileReader(file));
+		
 		String line = null;
 		StringBuilder stringBuilder = new StringBuilder();
 		String ls = System.getProperty("line.separator");
@@ -119,5 +123,13 @@ public class CSSCatalog {
 	
 	public List<FileEntity> getCatalogFiles() {
 		return catalogFiles;
+	}
+
+	public String getEncoding() {
+		return encoding;
+	}
+
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
 	}
 }

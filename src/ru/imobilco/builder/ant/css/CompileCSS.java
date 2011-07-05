@@ -104,6 +104,7 @@ public class CompileCSS extends FileListTask {
 			File outputFile = new File(toDir, f.getFilePath());
 			
 			CSSCatalog catalog = new CSSCatalog(f.getFile(), webRoot);
+			catalog.setEncoding(getEncoding());
 			if (!force && !logger.isModified(outputFile, catalog.getCatalogFiles())) {
 				log("Nothing to do");
 			} else {
