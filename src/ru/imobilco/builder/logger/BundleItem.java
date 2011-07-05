@@ -67,7 +67,13 @@ public class BundleItem {
 			filePath = pathProcessor.getPath(filePath);
 		}
 		
-		sb.append("<file src=\"" + filePath + "\">\n");
+		File f = new File(parentFile);
+		String md5 = "";
+		try {
+			md5 = MD5Checksum.getMD5Checksum(f);
+		} catch (Exception e) {}
+		
+		sb.append("<file src=\"" + filePath + "\" date=\"" + f.lastModified() + "\" md5=\"" + md5 + "\">\n");
 		
 		if (getChildFiles() != null) {
 			for (ModuleFile mf : getChildFiles()) {
