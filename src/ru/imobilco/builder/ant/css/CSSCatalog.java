@@ -50,7 +50,7 @@ public class CSSCatalog {
 			if (filteredContent == null)
 				filteredContent = matcher.group(0);
 			
-			matcher.appendReplacement(sb, filteredContent);
+			matcher.appendReplacement(sb, Matcher.quoteReplacement(filteredContent));
 		}
 		
 		matcher.appendTail(sb);
@@ -89,7 +89,6 @@ public class CSSCatalog {
 	
 	private String readFile(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), getEncoding()));
-//		BufferedReader reader = new BufferedReader(new FileReader(file));
 		
 		String line = null;
 		StringBuilder stringBuilder = new StringBuilder();
@@ -98,6 +97,8 @@ public class CSSCatalog {
 			stringBuilder.append(line);
 			stringBuilder.append(ls);
 		}
+		
+		reader.close();
 		return stringBuilder.toString();
 	}
 

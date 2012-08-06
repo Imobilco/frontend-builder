@@ -2,6 +2,10 @@
  * About global
  */
 
+.about-content:before {
+	content: '→';
+}
+
 .about-content .sub-navigation {
 	text-align: center;
 }

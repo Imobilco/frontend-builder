@@ -31,4 +31,12 @@
     	
     	<zip-updated destfile="${basedir}/updated.zip" basedir="${basedir}"/>
     </target>
+	
+	<target name="css">
+		<compile-css todir="${basedir}/cc" webroot="${basedir}/css/webroot" force="yes">
+			<filelist dir="${basedir}/css">
+				<file name="test-utf.css"/>
+			</filelist>
+		</compile-css>
+	</target>
 </project>

@@ -3,6 +3,14 @@
 @import url(assets/_city_chooser.css);
 @import url(/_btn.css);
 
+.c1_1:before {
+	content: '—';
+}
+
+.c1_2:before {
+	content: '\u00a0';
+}
+
 .main-content {
 	position: relative;
 	line-height: 1.7;
