@@ -10,6 +10,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.tools.ant.Project;
+import org.json.simple.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -32,10 +33,10 @@ public class BundleLogger {
         updatedFiles = new ArrayList<String>();
         loadCatalog();
     }
-    
+
     private String getFilePath(Node node) {
-    	File _f = new File(baseDir, getAttributeValue(node, "src"));
-    	return _f.getAbsolutePath();
+        File _f = new File(baseDir, getAttributeValue(node, "src"));
+        return _f.getAbsolutePath();
     }
 
     private void loadCatalog() {
@@ -49,7 +50,7 @@ public class BundleLogger {
                 doc.getDocumentElement().normalize();
 
                 catalog = new ArrayList<BundleItem>();
-                
+
                 NodeList child = doc.getDocumentElement().getChildNodes();
                 for (int i = 0; i < child.getLength(); i++) {
                     Node n = child.item(i);
@@ -141,19 +142,31 @@ public class BundleLogger {
     }
 
     public void saveCatalog() {
-        saveCatalog(getCatalogFile());
+        saveCatalogXml(getCatalogFile(), true);
     }
 
-    public void saveCatalog(File outputFile) {
-        saveCatalog(new DefaultPathProcessor(baseDir), outputFile);
+    public void saveCatalogXml(File outputFile, boolean printChildren) {
+        saveCatalogXml(new DefaultPathProcessor(baseDir), outputFile, printChildren);
     }
 
-    public void saveCatalog(IPathProcessor pathProcessor) {
-        saveCatalog(pathProcessor, getCatalogFile());
+    public void saveCatalogXml(IPathProcessor pathProcessor, File outputFile, boolean printChildren) {
+        try {
+            saveToFile(outputFile, toXml(pathProcessor, printChildren));
+        } catch (Exception e) {
+            project.log("Error writing catalog file", e, 0);
+        }
     }
 
-    public void saveCatalog(IPathProcessor pathProcessor, File outputFile) {
-        OutputStreamWriter out;
+    public void saveCatalogJson(IPathProcessor pathProcessor, File outputFile, boolean printChildren) {
+        try {
+            saveToFile(outputFile, toJson(pathProcessor, printChildren));
+        } catch (Exception e) {
+            project.log("Error writing catalog file", e, 0);
+        }
+    }
+
+    private static void saveToFile(File outputFile, String content) throws Exception {
+        OutputStreamWriter out = null;
         try {
             File parentDir = outputFile.getParentFile();
             if (!parentDir.exists()) {
@@ -161,34 +174,43 @@ public class BundleLogger {
             }
             outputFile.createNewFile();
             out = new OutputStreamWriter(new FileOutputStream(outputFile), "UTF-8");
-
-            out.append(toXml(pathProcessor));
-            out.flush();
-            out.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+            out.append(content);
+        } finally {
+            if (out != null) {
+                out.flush();
+                out.close();
+            }
         }
     }
 
     public String toXml() {
-        return toXml(null);
+        return toXml(null, true);
     }
 
-    public String toXml(IPathProcessor pathProcessor) {
+    public String toXml(IPathProcessor pathProcessor, boolean printChildren) {
         StringBuilder sb = new StringBuilder();
         sb.append("<files>\n");
         for (BundleItem item : catalog) {
-            sb.append(item.toXml(pathProcessor) + "\n");
+            sb.append(item.toXml(pathProcessor, printChildren) + "\n");
         }
         sb.append("</files>\n");
         return sb.toString();
     }
 
+    public String toJson(IPathProcessor pathProcessor, boolean printChildren) {
+        JSONObject object = new JSONObject();
+        for (BundleItem item : catalog) {
+            JSONObject innerObject = item.toJSON(pathProcessor, printChildren);
+            object.put(innerObject.get("src"), innerObject);
+        }
+        return object.toJSONString();
+    }
+
     public List<String> getUpdatedFiles() {
         return updatedFiles;
     }
-    
+
     public File getBaseDir() {
-		return baseDir;
-	}
+        return baseDir;
+    }
 }

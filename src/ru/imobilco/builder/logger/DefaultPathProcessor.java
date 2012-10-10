@@ -10,8 +10,7 @@ public class DefaultPathProcessor implements IPathProcessor {
 	public DefaultPathProcessor(File baseDir) {
 		this.baseDir = baseDir;
 	}
-	
-	@Override
+
 	public String getPath(String path) {
 		try {
 			if (baseDir != null)
