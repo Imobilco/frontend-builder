@@ -14,7 +14,6 @@ public class XSLCatalogPathProcessor implements IPathProcessor {
 		this.ensureAbsolute = ensureAbsolute;
 	}
 
-	@Override
 	public String getPath(String path) {
 		File f = new File(path);
 		String filePath = path;
