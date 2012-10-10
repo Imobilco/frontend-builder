@@ -1,35 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Compiler test" default="default" basedir=".">
-	<taskdef resource="org/apache/tools/ant/taskdefs/default.properties">
-		<classpath>
-			<pathelement location="../bin" />
-			<pathelement location="../compiler.jar"/>
-			<pathelement location="../yuicompressor-2.4.7pre.jar"/>
-		</classpath>
-	</taskdef>
+    <taskdef resource="org/apache/tools/ant/taskdefs/default.properties">
+        <classpath>
+            <pathelement location="../dist/frontend-builder-1.0.jar"/>
+            <pathelement location="../lib/compiler.jar"/>
+            <pathelement location="../lib/yuicompressor-2.4.7pre.jar"/>
+            <pathelement location="../lib/json-simple-1.1.jar"/>
+        </classpath>
+    </taskdef>
     <target name="default">
         <compile-js destfile="${basedir}/c/sample.js" useclosure="false">
-        	<filelist dir="${basedir}">
-        		<file name="file1.js"/>
-        		<file name="file2.js"/>
-        	</filelist>
+            <filelist dir="${basedir}">
+                <file name="file1.js"/>
+                <file name="file2.js"/>
+            </filelist>
         </compile-js>
-    	
+
         <compile-js destdir="./c">
-        	<fileset dir="${basedir}">
-        		<include name="*.js"/>
-        	</fileset>
+            <fileset dir="${basedir}">
+                <include name="*.js"/>
+            </fileset>
         </compile-js>
-    	
-    	<compile-css todir="${basedir}/cc" webroot="${basedir}/css/webroot">
-    		<filelist dir="${basedir}/css">
-    			<file name="test.css"/>
-    		</filelist>
-    	</compile-css>
-    	
-    	<save-catalog absolute="true" destfile="${basedir}/c/js-libs.xml" webroot="${basedir}"/>
-    	
-    	<zip-updated destfile="${basedir}/updated.zip" basedir="${basedir}"/>
+
+        <compile-css todir="${basedir}/cc" webroot="${basedir}/css/webroot">
+            <filelist dir="${basedir}/css">
+                <file name="test.css"/>
+            </filelist>
+        </compile-css>
+
+        <save-catalog absolute="true" destfile="${basedir}/c/js-libs.xml" webroot="${basedir}"/>
+        <save-catalog absolute="true" destfile="${basedir}/c/js-libs.json" webroot="${basedir}" json="true"/>
+        <save-catalog absolute="true" destfile="${basedir}/c/static-files.json" webroot="${basedir}" json="true" printChildren="false"/>
+
+        <zip-updated destfile="${basedir}/updated.zip" basedir="${basedir}"/>
     </target>
 	
 	<target name="css">

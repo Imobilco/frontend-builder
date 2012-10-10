@@ -12,7 +12,6 @@ public class FileEntity {
 	/**
 	 * @param baseDir File's base dir
 	 * @param filePath File's path, relative to baseDir
-	 * @param res File resource
 	 */
 	public FileEntity(String baseDir, String filePath) {
 		this.baseDir = baseDir;

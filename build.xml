@@ -17,9 +17,10 @@
 		<mkdir dir="${build.dir}/classes" />
 		<javac srcdir="${src.dir}" destdir="${build.dir}/classes" includes="**/*.java" deprecation="off" debug="on" source="1.6" includeantruntime="false">
 			<classpath>
-				<pathelement location="${basedir}/ant.jar" />
-				<pathelement location="${basedir}/compiler.jar" />
-				<pathelement location="${basedir}/yuicompressor-2.4.7pre.jar" />
+				<pathelement location="${basedir}/lib/ant.jar" />
+				<pathelement location="${basedir}/lib/compiler.jar" />
+				<pathelement location="${basedir}/lib/yuicompressor-2.4.7pre.jar" />
+				<pathelement location="${basedir}/lib/json-simple-1.1.jar" />
 			</classpath>
 		</javac>
 	</target>
